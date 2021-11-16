@@ -8,10 +8,6 @@ export default {
   mixins: [reactiveProp],
   data() {
     return {
-      data: {
-        labels: this.label,
-        datasets: this.dataset,
-      },
       options: {
         responsive: true,
         maintainAspectRatio: false,

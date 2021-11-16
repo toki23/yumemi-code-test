@@ -36,16 +36,12 @@ export default {
       }
     },
   },
-  methods: {
-    handleResize() {
-      // resizeのたびにこの部分が発火するので、ここでやりたいことをやる
-      this.width = window.innerWidth * 0.95
-    },
-  },
+
   watch: {
     selectedPrefectures() {
       const prefectures = this.selectedPrefectures
       const populationCompositionAndPrefecturePromise = prefectures.map(
+        // 総人口データの取得
         async (prefecture) => {
           return {
             populationComposition: await this.$axios.get(
@@ -62,6 +58,7 @@ export default {
       Promise.all(populationCompositionAndPrefecturePromise).then(
         (populationCompositionAndPrefectures) => {
           const dataset = populationCompositionAndPrefectures.map(
+            // 取得した総人口データからChart.jsで使用するデータの形式に変換。
             (populationCompositionAndPrefecture) => {
               const totalPopulation =
                 populationCompositionAndPrefecture.populationComposition.data
@@ -94,16 +91,22 @@ export default {
       }
     )
     const totalPopulation = populationComposition.data.result.data[0].data
+    // 事前に年度データの取得
     this.label = totalPopulation.map((i) => {
       return i.year
     })
+  },
+  methods: {
+    handleResize() {
+      this.width = window.innerWidth * 0.95
+    },
   },
 }
 </script>
 
 <style scoped>
 .linechart-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 </style>

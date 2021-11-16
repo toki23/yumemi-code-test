@@ -17,7 +17,7 @@ export default {
     )
     return {
       prefectures: prefectures.data.result.map((item) => {
-        return { ...item, selected: false }
+        return { ...item, selected: false } // チェックボックスで選択されたかを示す変数selectedの追加
       }),
     }
   },
