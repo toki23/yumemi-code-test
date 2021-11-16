@@ -1,7 +1,11 @@
 <template>
   <div>
     <p>グラフ</p>
-    <Chart v-if="label && dataset" :chart-data="datacollection" />
+    <Chart
+      v-if="label && dataset"
+      :chart-data="datacollection"
+      :styles="chartStyles"
+    />
   </div>
 </template>
 <script>
@@ -17,6 +21,7 @@ export default {
       dataset: null,
       label: null,
       datacollection: null,
+      height: 500,
     }
   },
   watch: {
@@ -58,6 +63,14 @@ export default {
           datasets: this.dataset,
         }
       })
+    },
+  },
+  computed: {
+    chartStyles() {
+      return {
+        height: `${this.height}px`,
+        position: 'relative',
+      }
     },
   },
 }

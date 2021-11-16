@@ -12,6 +12,28 @@ export default {
         labels: this.label,
         datasets: this.dataset,
       },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: '年度',
+              },
+            },
+          ],
+          yAxes: [
+            {
+              scaleLabel: {
+                display: true,
+                labelString: '人口数',
+              },
+            },
+          ],
+        },
+      },
     }
   },
   mounted() {
