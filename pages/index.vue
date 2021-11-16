@@ -2,7 +2,7 @@
   <div>
     <Header />
     <Prefectures :prefectures="prefectures" />
-    <Graph :selectedPrefectures="prefectures.filter((i) => i.selected)" />
+    <Graph :selected-prefectures="selectedPrefectures" />
   </div>
 </template>
 
@@ -20,6 +20,11 @@ export default {
         return { ...item, selected: false }
       }),
     }
+  },
+  computed: {
+    selectedPrefectures() {
+      return this.prefectures.filter((i) => i.selected) ?? []
+    },
   },
 }
 </script>
