@@ -1,7 +1,8 @@
+const { RESUS_API_KEY } = process.env;
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
+  telemetry: true,
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -41,9 +42,13 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+  publicRuntimeConfig: {
+    apiKey: RESUS_API_KEY,
+  },
 }
