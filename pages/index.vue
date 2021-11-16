@@ -1,5 +1,9 @@
 <template>
-  <Tutorial/>
+  <div>
+    <Header />
+    <Prefectures />
+    <Graph />
+  </div>
 </template>
 
 <script>
