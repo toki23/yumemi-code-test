@@ -17,7 +17,7 @@
 export default {
   props: {
     prefectures: {
-      type: Object,
+      type: Array,
       default: null,
     },
   },

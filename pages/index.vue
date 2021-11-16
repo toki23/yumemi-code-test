@@ -2,7 +2,7 @@
   <div>
     <Header />
     <Prefectures :prefectures="prefectures" />
-    <Graph />
+    <Graph :selectedPrefectures="prefectures.filter((i) => i.selected)" />
   </div>
 </template>
 
