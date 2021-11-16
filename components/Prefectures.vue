@@ -4,8 +4,9 @@
 
     <span v-for="prefecture in prefectures" :key="prefecture.prefCode">
       <input
-        type="checkbox"
         :id="prefecture.prefCode"
+        v-model="prefecture.selected"
+        type="checkbox"
         :name="prefecture.prefCode"
       />
       <label :for="prefecture.prefCode">{{ prefecture.prefName }}</label>
@@ -14,10 +15,11 @@
 </template>
 <script>
 export default {
-  props: ['prefectures'],
-
-  mounted() {
-    console.log(this.prefectures)
+  props: {
+    prefectures: {
+      type: Object,
+      default: null,
+    },
   },
 }
 </script>

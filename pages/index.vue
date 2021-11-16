@@ -1,14 +1,13 @@
 <template>
   <div>
     <Header />
-    <Prefectures :prefectures="this.prefectures" />
+    <Prefectures :prefectures="prefectures" />
     <Graph />
   </div>
 </template>
 
 <script>
 export default {
-  mounted() {},
   async asyncData({ $axios, $config }) {
     const prefectures = await $axios.get(
       'https://opendata.resas-portal.go.jp/api/v1/prefectures',
@@ -16,8 +15,11 @@ export default {
         headers: { 'X-API-KEY': $config.apiKey },
       }
     )
-    console.log(prefectures.data.result)
-    return { prefectures: prefectures.data.result }
+    return {
+      prefectures: prefectures.data.result.map((item) => {
+        return { ...item, selected: false }
+      }),
+    }
   },
 }
 </script>
