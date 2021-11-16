@@ -1,11 +1,11 @@
 <script>
 import { Line, mixins } from 'vue-chartjs'
+import 'chartjs-plugin-colorschemes'
 const { reactiveProp } = mixins
 export default {
   extends: Line,
   mixins: [reactiveProp],
   name: 'chart',
-  // props: ['label', 'dataset'],
   data() {
     return {
       data: {
