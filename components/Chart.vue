@@ -1,29 +1,27 @@
 <script>
-import { Line } from 'vue-chartjs'
-
+import { Line, mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 export default {
   extends: Line,
+  mixins: [reactiveProp],
   name: 'chart',
-  props: ['Label', 'Data'],
+  // props: ['label', 'dataset'],
   data() {
     return {
       data: {
-        labels: this.Label,
-        datasets: [
-          {
-            label: 'fjldksj',
-            data: this.Data,
-            borderWidth: 1,
-          },
-        ],
+        labels: this.label,
+        datasets: this.dataset,
       },
     }
   },
   mounted() {
-    console.log("skdfjs");
-    console.log(this.Label)
-    console.log(this.Data)
-    this.renderChart(this.data, this.options)
+    console.log('skdfjs')
+    console.log(this.label)
+    console.log(this.dataset)
+    this.renderChart(this.chartData, this.options)
+  },
+  watch: {
+    dataset() {},
   },
 }
 </script>
