@@ -3,7 +3,7 @@ import { Line, mixins } from 'vue-chartjs'
 import 'chartjs-plugin-colorschemes'
 const { reactiveProp } = mixins
 export default {
-  name: 'Chart',
+  name: 'LineChart',
   extends: Line,
   mixins: [reactiveProp],
   data() {

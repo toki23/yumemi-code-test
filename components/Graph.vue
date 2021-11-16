@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>グラフ</p>
-    <Chart :chart-data="datacollection" :styles="chartStyles" />
+    <LineChart :chart-data="datacollection" :styles="chartStyles" />
   </div>
 </template>
 <script>
@@ -52,13 +52,13 @@ export default {
               const totalPopulation =
                 populationCompositionAndPrefecture.populationComposition.data
                   .result.data[0].data
-              const population = totalPopulation.map((i) => {
+              const populationValue = totalPopulation.map((i) => {
                 return i.value
               })
 
               return {
                 label: populationCompositionAndPrefecture.prefecture.prefName,
-                data: population,
+                data: populationValue,
               }
             }
           )
