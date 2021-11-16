@@ -1,7 +1,13 @@
 <template>
   <div>
     <p>グラフ</p>
-    <LineChart :chart-data="datacollection" :styles="chartStyles" />
+    <div class="linechart-container">
+      <LineChart
+        v-if="datacollection"
+        :chart-data="datacollection"
+        :styles="chartStyles"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -17,6 +23,7 @@ export default {
       label: null,
       datacollection: null,
       height: 500,
+      width: window.innerWidth * 0.9,
     }
   },
 
@@ -24,8 +31,15 @@ export default {
     chartStyles() {
       return {
         height: `${this.height}px`,
+        width: `${this.width}px`,
         position: 'relative',
       }
+    },
+  },
+  methods: {
+    handleResize() {
+      // resizeのたびにこの部分が発火するので、ここでやりたいことをやる
+      this.width = window.innerWidth * 0.95
     },
   },
   watch: {
@@ -59,6 +73,7 @@ export default {
               return {
                 label: populationCompositionAndPrefecture.prefecture.prefName,
                 data: populationValue,
+                fill: false,
               }
             }
           )
@@ -71,6 +86,7 @@ export default {
     },
   },
   async mounted() {
+    window.addEventListener('resize', this.handleResize)
     const populationComposition = await this.$axios.get(
       'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=1',
       {
@@ -84,3 +100,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.linechart-container {
+    display: flex;
+    justify-content: center;
+}
+</style>

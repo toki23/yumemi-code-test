@@ -11,6 +11,7 @@ div {
   width: 100%;
   background-color: rgb(148, 146, 146);
   height: 50px;
+  padding:10px;
 }
 h1 {
   text-align: center;
