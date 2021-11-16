@@ -1,11 +1,7 @@
 <template>
   <div>
     <p>グラフ</p>
-    <Chart
-      v-if="label && dataset"
-      :chart-data="datacollection"
-      :styles="chartStyles"
-    />
+    <LineChart :chart-data="datacollection" :styles="chartStyles" />
   </div>
 </template>
 <script>
@@ -18,53 +14,12 @@ export default {
   },
   data() {
     return {
-      dataset: null,
       label: null,
       datacollection: null,
       height: 500,
     }
   },
-  watch: {
-    selectedPrefectures() {
-      const selectedPrefectures = this.selectedPrefectures
-      const prefecturesPromise = selectedPrefectures.map(async (prefecture) => {
-        return {
-          populationComposition: await this.$axios.get(
-            `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefecture.prefCode}`,
-            {
-              headers: { 'X-API-KEY': this.$config.apiKey },
-            }
-          ),
-          prefecture,
-        }
-      })
 
-      Promise.all(prefecturesPromise).then((populationCompositions) => {
-        const detaset = populationCompositions.map((populationComposition) => {
-          const totalPopulation =
-            populationComposition.populationComposition.data.result.data[0].data
-          const values = totalPopulation.map((i) => {
-            return i.value
-          })
-          const year = totalPopulation.map((i) => {
-            return i.year
-          })
-
-          this.label = year
-
-          return {
-            label: populationComposition.prefecture.prefName,
-            data: values,
-          }
-        })
-        this.dataset = detaset
-        this.datacollection = {
-          labels: this.label,
-          datasets: this.dataset,
-        }
-      })
-    },
-  },
   computed: {
     chartStyles() {
       return {
@@ -73,11 +28,59 @@ export default {
       }
     },
   },
+  watch: {
+    selectedPrefectures() {
+      const prefectures = this.selectedPrefectures
+      const populationCompositionAndPrefecturePromise = prefectures.map(
+        async (prefecture) => {
+          return {
+            populationComposition: await this.$axios.get(
+              `https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=${prefecture.prefCode}`,
+              {
+                headers: { 'X-API-KEY': this.$config.apiKey },
+              }
+            ),
+            prefecture,
+          }
+        }
+      )
+
+      Promise.all(populationCompositionAndPrefecturePromise).then(
+        (populationCompositionAndPrefectures) => {
+          const dataset = populationCompositionAndPrefectures.map(
+            (populationCompositionAndPrefecture) => {
+              const totalPopulation =
+                populationCompositionAndPrefecture.populationComposition.data
+                  .result.data[0].data
+              const populationValue = totalPopulation.map((i) => {
+                return i.value
+              })
+
+              return {
+                label: populationCompositionAndPrefecture.prefecture.prefName,
+                data: populationValue,
+              }
+            }
+          )
+          this.datacollection = {
+            labels: this.label,
+            datasets: dataset,
+          }
+        }
+      )
+    },
+  },
+  async mounted() {
+    const populationComposition = await this.$axios.get(
+      'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear?cityCode=-&prefCode=1',
+      {
+        headers: { 'X-API-KEY': this.$config.apiKey },
+      }
+    )
+    const totalPopulation = populationComposition.data.result.data[0].data
+    this.label = totalPopulation.map((i) => {
+      return i.year
+    })
+  },
 }
-// const totalPopulations = populationCompositions.map(
-//   (populationComposition) => {
-//     console.log(populationComposition.data.result.data[0])
-//     return populationComposition.data.result.data[0].data
-//   }
-// )
 </script>

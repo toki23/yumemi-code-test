@@ -9,7 +9,7 @@ body {
 }
 div {
   width: 100%;
-  background-color: gray;
+  background-color: rgb(148, 146, 146);
   height: 50px;
 }
 h1 {

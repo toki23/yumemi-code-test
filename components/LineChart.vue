@@ -3,9 +3,9 @@ import { Line, mixins } from 'vue-chartjs'
 import 'chartjs-plugin-colorschemes'
 const { reactiveProp } = mixins
 export default {
+  name: 'LineChart',
   extends: Line,
   mixins: [reactiveProp],
-  name: 'chart',
   data() {
     return {
       data: {
@@ -37,16 +37,7 @@ export default {
     }
   },
   mounted() {
-    console.log('skdfjs')
-    console.log(this.label)
-    console.log(this.dataset)
     this.renderChart(this.chartData, this.options)
-  },
-  watch: {
-    dataset() {},
   },
 }
 </script>
-
-<style>
-</style>

@@ -3,9 +3,9 @@
     <p>都道府県</p>
     <div class="checkbox-container">
       <span
-        class="checkbox"
         v-for="prefecture in prefectures"
         :key="prefecture.prefCode"
+        class="checkbox"
       >
         <input
           :id="prefecture.prefCode"
